@@ -1,21 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import MainLayout from './MainLayout'; // Importa el componente MainLayout
 
-const Systems = () => {
+const Systems = ({ currentUser }) => {
   const [quotes, setQuotes] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Verificar el estado de inicio de sesión
-    const checkLoginStatus = () => {
-      const userLoggedIn = localStorage.getItem('isLoggedIn');
-      setIsLoggedIn(userLoggedIn === 'true');
-    };
-
-    checkLoginStatus();
-
-    // Obtener las cotizaciones de activos si el usuario está logueado
     const fetchQuotes = async () => {
       try {
         const response = await fetch('https://api.saldo.com.ar/json/rates/banco');
@@ -27,32 +19,51 @@ const Systems = () => {
         }
       } catch (error) {
         console.error('Error al obtener las cotizaciones:', error);
+        setError('Error al obtener las cotizaciones. Por favor, inténtalo de nuevo.');
       }
     };
 
-    if (!isLoggedIn) {
-      navigate('/login'); // Redirigir a la página de inicio de sesión si el usuario no está autenticado
-    } else {
-      fetchQuotes();
-    }
-  }, [isLoggedIn, navigate]); // Se agregan las dependencias 'isLoggedIn' y 'navigate'
+    fetchQuotes();
+
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    navigate('/login');
+  };
 
   return (
-    <div>
-      <h2>Cotizaciones de Activos</h2>
-      <ul>
-        {Object.entries(quotes).map(([asset, quote]) => (
-          <li key={asset}>
-            <strong>{asset}</strong>: 
+    // Utiliza MainLayout como contenedor alrededor del contenido específico de la página
+    <MainLayout currentUser={currentUser} onLogout={handleLogout}>
+      <div>
+        <h1>Bienvenido</h1>
+        {currentUser && (
+          <div>
+            <p>{`Bienvenido, ${currentUser}`}</p>
+            <button onClick={handleLogout}>Cerrar sesión</button>
+          </div>
+        )}
+        {!currentUser && (
+          <div>
+            <p>Iniciar Sesión</p>
+            <Link to="/login">Iniciar sesión</Link>
+          </div>
+        )}
+        {error && <p>{error}</p>}
+        {quotes.length > 0 && (
+          <div>
+            <h2>Cotizaciones de Activos</h2>
             <ul>
-              <li>Ask: {quote.ask}</li>
-              <li>Bid: {quote.bid}</li>
-              <li>Moneda: {quote.currency}</li>
+              {quotes.map((quote, index) => (
+                <li key={index}>
+                  {quote.asset}: {quote.price}
+                </li>
+              ))}
             </ul>
-          </li>
-        ))}
-      </ul>
-    </div>
+          </div>
+        )}
+      </div>
+    </MainLayout>
   );
 };
 

@@ -7,6 +7,9 @@ const Navbar = ({ currentUser, onLogout }) => {
     color: '#fff',
     padding: '10px',
     marginBottom: '20px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   };
 
   const linkStyle = {
@@ -18,8 +21,6 @@ const Navbar = ({ currentUser, onLogout }) => {
   const userInfoStyle = {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-end',
-    marginBottom: '10px',
   };
 
   const welcomeTextStyle = {
@@ -52,15 +53,16 @@ const Navbar = ({ currentUser, onLogout }) => {
           {/* Agrega más elementos de navegación según sea necesario */}
         </ul>
       </nav>
-      <div style={userInfoStyle}>
-        <span style={welcomeTextStyle}>Bienvenido, {currentUser}</span>
-        <button onClick={handleLogout} style={buttonStyle}>Cerrar sesión</button>
-      </div>
+      {currentUser && (
+        <div style={userInfoStyle}>
+          <span style={welcomeTextStyle}>Bienvenido, {currentUser}</span>
+          <button onClick={handleLogout} style={buttonStyle}>Cerrar sesión</button>
+        </div>
+      )}
     </div>
   );
 };
 
 export default Navbar;
-
 
 

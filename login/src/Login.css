@@ -1,0 +1,95 @@
+.login-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #4caf50;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.error-message {
+  color: #ff0000;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #4caf50;
+  transition: border-color 0.3s ease;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.button-container {
+  margin-top: 15px;
+}
+
+.submit-button,
+.facebook-button,
+.explore-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.submit-button {
+  background-color: #4caf50;
+}
+
+.facebook-button {
+  background-color: #3b5998;
+}
+
+.explore-button {
+  background-color: #4caf50;
+}
+
+.button-container button {
+  margin-bottom: 10px;
+}
+
+.submit-button:hover,
+.facebook-button:hover,
+.explore-button:hover {
+  opacity: 0.8;
+}
+/* Estilos para los botones */
+button {
+  width: 100%; /* Los botones ocuparán todo el ancho disponible */
+  padding: 10px; /* Añade un espacio interno de 10px */
+  margin-bottom: 10px; /* Añade separación entre los botones */
+  border: none; /* Quita el borde de los botones */
+  border-radius: 5px; /* Añade esquinas redondeadas */
+  cursor: pointer; /* Cambia el cursor al pasar por encima de los botones */
+}
+
+/* Estilos para el botón de iniciar sesión con Facebook */
+#login-facebook-button {
+  background-color: #3b5998; /* Color de fondo para el botón de Facebook */
+  color: white; /* Color del texto */
+}
+
+/* Estilos para el botón de explorar sin iniciar sesión */
+#explore-button {
+  background-color: #4caf50; /* Color de fondo para el botón de explorar */
+  color: white; /* Color del texto */
+}

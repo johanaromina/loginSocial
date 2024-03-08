@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -15,9 +16,8 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
+  const handleEmailPasswordLogin = async (e) => {
     e.preventDefault();
-
     try {
       const response = await fetch('https://api.saldo.com.ar/bridge/login', {
         method: 'POST',
@@ -31,80 +31,67 @@ const Login = () => {
       });
 
       if (response.ok) {
-        // Inicio de sesión exitoso, redirigir al usuario a la página de activos
+        // Actualizar el estado de isLoggedIn a true después del inicio de sesión exitoso
+        localStorage.setItem('isLoggedIn', 'true');
         navigate('/systems');
+        console.log('Redirigiendo a /systems después del inicio de sesión exitoso');
       } else {
-        // Error en el inicio de sesión, mostrar mensaje de error
-        setError('Credenciales inválidas. Por favor, inténtalo de nuevo.');
+        const data = await response.json();
+        setError(data.message || 'Credenciales inválidas. Por favor, inténtalo de nuevo.');
       }
     } catch (error) {
-      console.error('Error al iniciar sesión:', error);
-      setError('Se produjo un error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.');
+      console.error('Error al iniciar sesión con correo y contraseña:', error);
+      setError('Credenciales inválidas. Por favor, inténtalo de nuevo.');
     }
   };
 
+  const handleLoginWithFacebook = async () => {
+    try {
+      // Lógica para iniciar sesión con Facebook
+    } catch (error) {
+      console.error('Error al iniciar sesión con Facebook:', error);
+      setError('Error al iniciar sesión con Facebook. Por favor, inténtalo de nuevo.');
+    }
+  };
+
+  const handleExploreWithoutLogin = () => {
+    navigate('/systems');
+  };
+
   return (
-    <div style={styles.container}>
-      <h2 style={styles.heading}>Iniciar Sesión</h2>
-      {error && <p style={styles.error}>{error}</p>}
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <div style={styles.inputContainer}>
-          <label htmlFor="email" style={styles.label}>Correo Electrónico:</label>
-          <input type="email" id="email" value={email} onChange={handleEmailChange} style={styles.input} required />
+    <div className="login-container">
+      <h2>Iniciar Sesión</h2>
+      {error && <p className="error-message">{error}</p>}
+      <form onSubmit={handleEmailPasswordLogin}>
+        <div className="form-group">
+          <label htmlFor="email">Correo Electrónico:</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={handleEmailChange}
+            required
+          />
         </div>
-        <div style={styles.inputContainer}>
-          <label htmlFor="password" style={styles.label}>Contraseña:</label>
-          <input type="password" id="password" value={password} onChange={handlePasswordChange} style={styles.input} required />
+        <div className="form-group">
+          <label htmlFor="password">Contraseña:</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={handlePasswordChange}
+            required
+          />
         </div>
-        <button type="submit" style={styles.button}>Iniciar Sesión</button>
+        <button type="submit">Iniciar sesión</button>
       </form>
+      <button id="login-facebook-button" onClick={handleLoginWithFacebook}>Iniciar sesión con Facebook</button>
+      <button id="explore-button" onClick={handleExploreWithoutLogin}>Explorar sin iniciar sesión</button>
     </div>
   );
 };
 
-const styles = {
-  container: {
-    maxWidth: '400px',
-    margin: '0 auto',
-    textAlign: 'center',
-  },
-  heading: {
-    fontSize: '24px',
-    marginBottom: '20px',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  inputContainer: {
-    marginBottom: '15px',
-  },
-  label: {
-    marginBottom: '5px',
-    display: 'block',
-    fontSize: '16px',
-  },
-  input: {
-    width: '100%',
-    padding: '10px',
-    fontSize: '16px',
-    border: '1px solid #ccc',
-    borderRadius: '5px',
-  },
-  button: {
-    backgroundColor: '#007bff',
-    color: '#fff',
-    padding: '10px',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    fontSize: '16px',
-  },
-  error: {
-    color: 'red',
-    marginBottom: '15px',
-  },
-};
-
 export default Login;
+
+
 

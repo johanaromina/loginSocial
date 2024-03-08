@@ -1,37 +1,43 @@
-// App.js
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './Login';
 import Systems from './Systems';
-import Navbar from './Navbar';
+import MainLayout from './MainLayout'; // Importa el componente MainLayout
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleLogin = (user) => {
-    setCurrentUser(user);
-  };
+  useEffect(() => {
+    const checkAuthentication = () => {
+      const userLoggedIn = localStorage.getItem('isLoggedIn');
+      console.log('Valor de userLoggedIn:', userLoggedIn);
+      setIsLoggedIn(userLoggedIn === 'true');
+      console.log('Valor de isLoggedIn:', isLoggedIn);
+    };
+  
+    checkAuthentication();
+  }, [isLoggedIn]); // Ahora incluye isLoggedIn en el array de dependencias Eliminar isLoggedIn del array de dependencias para que solo se ejecute una vez al montar el componente
 
   const handleLogout = () => {
     setCurrentUser(null);
+    setIsLoggedIn(false);
+    localStorage.removeItem('isLoggedIn');
   };
 
   return (
     <Router>
-      <Routes>
-        <Route path="/login" element={<Login onLogin={handleLogin} />} />
-        <Route
-          path="/"
-          element={currentUser ? <Navbar currentUser={currentUser} onLogout={handleLogout} /> : null}
-        />
-        <Route
-          path="/systems"
-          element={currentUser ? <Systems /> : <Navigate to="/login" />}
-        />
-      </Routes>
+      {/* Envuelve todo en MainLayout */}
+      <MainLayout currentUser={currentUser} onLogout={handleLogout}>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/systems" element={isLoggedIn ? <Systems currentUser={currentUser} /> : <Navigate to="/login" />} />
+        </Routes>
+      </MainLayout>
     </Router>
   );
 };
 
 export default App;
+
