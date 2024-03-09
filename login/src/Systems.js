@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
-import MainLayout from './MainLayout'; // Importa el componente MainLayout
+import { useNavigate, useLocation } from 'react-router-dom';
+import MainLayout from './MainLayout';
+import './Systems.css';
 
 const Systems = () => {
   const location = useLocation();
   const { currentUser } = location.state || {};
   
-  console.log('Usuario actual en Systems:', currentUser);  
-  const [quotes, setQuotes] = useState([]);
+  const [quotes, setQuotes] = useState({});
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Verificar si currentUser está definido antes de cargar los datos
     if (currentUser) {
       const fetchQuotes = async () => {
         try {
@@ -21,7 +20,7 @@ const Systems = () => {
           if (response.ok) {
             const data = await response.json();
             console.log('Datos recibidos de la API:', data);
-            setQuotes(data);
+            setQuotes(data); // Actualiza el estado quotes con los datos recibidos
           } else {
             console.error('Error al obtener las cotizaciones:', response.statusText);
           }
@@ -30,53 +29,49 @@ const Systems = () => {
           setError('Error al obtener las cotizaciones. Por favor, inténtalo de nuevo.');
         }
       };
-
+  
       fetchQuotes();
     }
   }, [currentUser]);
+  
+  console.log('Quotes:', quotes);
+  console.log('Error:', error);
 
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
     navigate('/login');
   };
 
-  console.log('Usuario actual:', currentUser); // Agregar este console.log para verificar currentUser
-  console.log('Cotizaciones:', quotes);
-  console.log('Error:', error);
-
   return (
-    // Utiliza MainLayout como contenedor alrededor del contenido específico de la página
     <MainLayout currentUser={currentUser} onLogout={handleLogout}>
-      <div>
+      <div className="systems-container">
         <h1>Bienvenido</h1>
         {currentUser && (
           <div>
             <p>{`Bienvenido, ${currentUser}`}</p>
-            <button onClick={handleLogout}>Cerrar sesión</button>
           </div>
         )}
-        {!currentUser && (
+        {Object.keys(quotes).length > 0 ? (
           <div>
-            <p>A Systems</p>
-            <Link to="/login">Iniciar sesión</Link>
-          </div>
-        )}
-        {error && <p>{error}</p>}
-        {quotes.length > 0 && (
-          <div>
-            <h2>Cotizaciones de Activos</h2>
-            <ul>
-              {quotes.map((quote, index) => (
-                <li key={index}>
-                  {quote.asset}: {quote.price}
+            <h2 className="systems-heading">Cotizaciones de Activos</h2>
+            <ul className="systems-list">
+              {Object.entries(quotes).map(([key, value]) => (
+                <li key={key} className="systems-list-item">
+                  {key}: {value.ask} / {value.bid} {value.currency}
                 </li>
               ))}
             </ul>
           </div>
+        ) : (
+          <p>No hay cotizaciones disponibles.</p>
         )}
+        {error && <p className="error-message">{error}</p>}
+        <button className="logout-button" onClick={handleLogout}>Cerrar sesión</button>
       </div>
     </MainLayout>
   );
 };
-
+  
 export default Systems;
+
+

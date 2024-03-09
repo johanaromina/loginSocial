@@ -35,7 +35,7 @@ const App = () => {
             <Route path="/" element={<Login />} />
             <Route
               path="/systems"
-              element={isLoggedIn ? <Systems email={currentUser} /> : <Navigate to="/login" />}
+              element={isLoggedIn ? <Systems currentUser={currentUser} /> : <Navigate to="/login" />}
             />
           </Routes>
         </MainLayout>

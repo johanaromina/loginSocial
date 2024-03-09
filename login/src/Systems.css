@@ -1,0 +1,45 @@
+/* Estilos para el contenedor principal */
+.systems-container {
+    padding: 20px;
+}
+
+/* Estilos para el encabezado de la lista */
+.systems-heading {
+    color: #333333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Estilos para la lista */
+.systems-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Estilos para los elementos de la lista */
+.systems-list-item {
+    border-bottom: 1px solid #dddddd;
+    padding: 10px 0;
+}
+
+/* Estilos para los mensajes de error */
+.error-message {
+    color: red;
+}
+
+/* Estilos para el botón de cerrar sesión */
+.logout-button {
+    background-color: #00ff9d;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.logout-button:hover {
+    background-color: #cc0000;
+}
