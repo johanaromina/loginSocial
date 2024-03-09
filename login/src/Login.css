@@ -1,3 +1,4 @@
+/* Login.css */
 .login-container {
   max-width: 400px;
   margin: 0 auto;
@@ -36,60 +37,44 @@ input[type="password"]:focus {
   border-color: #007bff;
 }
 
-.button-container {
-  margin-top: 15px;
-}
-
-.submit-button,
-.facebook-button,
-.explore-button {
+#login-facebook-button {
   width: 100%;
-  padding: 12px;
+  padding: 10px;
+  margin-bottom: 10px;
   border: none;
   border-radius: 5px;
-  color: #fff;
   cursor: pointer;
+  background-color: #3b5998;
+  color: white;
+}
+
+
+#login-facebook-button:hover
+ {
+  opacity: 0.8;
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo-container img {
+  width: 100px;
+  height: auto;
 }
 
 .submit-button {
-  background-color: #4caf50;
-}
-
-.facebook-button {
-  background-color: #3b5998;
-}
-
-.explore-button {
-  background-color: #4caf50;
-}
-
-.button-container button {
+  width: 100%;
+  padding: 10px;
   margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #4caf50;
+  color: white;
 }
 
-.submit-button:hover,
-.facebook-button:hover,
-.explore-button:hover {
+.submit-button:hover {
   opacity: 0.8;
-}
-/* Estilos para los botones */
-button {
-  width: 100%; /* Los botones ocuparán todo el ancho disponible */
-  padding: 10px; /* Añade un espacio interno de 10px */
-  margin-bottom: 10px; /* Añade separación entre los botones */
-  border: none; /* Quita el borde de los botones */
-  border-radius: 5px; /* Añade esquinas redondeadas */
-  cursor: pointer; /* Cambia el cursor al pasar por encima de los botones */
-}
-
-/* Estilos para el botón de iniciar sesión con Facebook */
-#login-facebook-button {
-  background-color: #3b5998; /* Color de fondo para el botón de Facebook */
-  color: white; /* Color del texto */
-}
-
-/* Estilos para el botón de explorar sin iniciar sesión */
-#explore-button {
-  background-color: #4caf50; /* Color de fondo para el botón de explorar */
-  color: white; /* Color del texto */
 }

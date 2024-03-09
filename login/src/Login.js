@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { signInWithPopup, FacebookAuthProvider } from 'firebase/auth'; // Importar el método de inicio de sesión con Facebook
+import firebaseApp from './firebaseConfig'; // Importar la configuración de Firebase
+
+import { auth } from './firebaseConfig';
 import './Login.css';
 
 const Login = () => {
@@ -38,8 +42,7 @@ const Login = () => {
         navigate('/systems', { state: { currentUser: email } }); 
         console.log('Redirigiendo a /systems después del inicio de sesión exitoso');
         console.log('Valor de email en Login:', email); // Agregar este console.log para verificar email
-      }
-      else {
+      } else {
         const data = await response.json();
         setError(data.message || 'Credenciales inválidas. Por favor, inténtalo de nuevo.');
       }
@@ -49,9 +52,16 @@ const Login = () => {
     }
   };
   
+
   const handleLoginWithFacebook = async () => {
     try {
-      // Lógica para iniciar sesión con Facebook
+      console.log('Iniciando sesión con Facebook...');
+      console.log('Objeto firebaseApp:', firebaseApp); // Verificar el objeto firebaseApp
+      console.log('Objeto auth:', auth); // Verificar el objeto auth
+      const provider = new FacebookAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      console.log('Inicio de sesión exitoso:', result);
+      navigate('/systems', { state: { currentUser: result.user.email } });
     } catch (error) {
       console.error('Error al iniciar sesión con Facebook:', error);
       setError('Error al iniciar sesión con Facebook. Por favor, inténtalo de nuevo.');
@@ -60,8 +70,11 @@ const Login = () => {
 
   return (
     <div className="login-container">
+      <div className="logo-container">
+        <img src="/payoneer-como-verificar-cuenta.png" alt="Logo" />
+        </div>
       <h2>Iniciar Sesión</h2>
-      {error && <p className="error-message">{error}</p>}
+        {error && <p className="error-message">{error}</p>}
       <form onSubmit={handleEmailPasswordLogin}>
         <div className="form-group">
           <label htmlFor="email">Correo Electrónico:</label>
@@ -87,9 +100,9 @@ const Login = () => {
       </form>
       <button id="login-facebook-button" onClick={handleLoginWithFacebook}>Iniciar sesión con Facebook</button>
     </div>
+    
+    
   );
 };
 
 export default Login;
-
-

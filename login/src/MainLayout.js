@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-const MainLayout = ({ children, currentUser, onLogout }) => {
+const MainLayout = ({ children}) => {
   return (
     <div style={styles.container}>
       <main style={styles.main}>{children}</main>
