@@ -29,13 +29,17 @@ const Login = () => {
           password,
         }),
       });
-
+  
       if (response.ok) {
         // Actualizar el estado de isLoggedIn a true después del inicio de sesión exitoso
         localStorage.setItem('isLoggedIn', 'true');
-        navigate('/systems');
+        localStorage.setItem('currentUser', email); // Guardar el usuario actual en localStorage
+        console.log('Valor de email:', email); // Confirmar el valor de email en la consola
+        navigate('/systems', { state: { currentUser: email } }); 
         console.log('Redirigiendo a /systems después del inicio de sesión exitoso');
-      } else {
+        console.log('Valor de email en Login:', email); // Agregar este console.log para verificar email
+      }
+      else {
         const data = await response.json();
         setError(data.message || 'Credenciales inválidas. Por favor, inténtalo de nuevo.');
       }
@@ -44,7 +48,7 @@ const Login = () => {
       setError('Credenciales inválidas. Por favor, inténtalo de nuevo.');
     }
   };
-
+  
   const handleLoginWithFacebook = async () => {
     try {
       // Lógica para iniciar sesión con Facebook
@@ -52,10 +56,6 @@ const Login = () => {
       console.error('Error al iniciar sesión con Facebook:', error);
       setError('Error al iniciar sesión con Facebook. Por favor, inténtalo de nuevo.');
     }
-  };
-
-  const handleExploreWithoutLogin = () => {
-    navigate('/systems');
   };
 
   return (
@@ -86,12 +86,10 @@ const Login = () => {
         <button type="submit">Iniciar sesión</button>
       </form>
       <button id="login-facebook-button" onClick={handleLoginWithFacebook}>Iniciar sesión con Facebook</button>
-      <button id="explore-button" onClick={handleExploreWithoutLogin}>Explorar sin iniciar sesión</button>
     </div>
   );
 };
 
 export default Login;
-
 
 
