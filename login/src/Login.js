@@ -96,7 +96,7 @@ const Login = () => {
             required
           />
         </div>
-        <button type="submit">Iniciar sesión</button>
+        <button type="submit" className="submit-button">Iniciar sesión</button>
       </form>
       <button id="login-facebook-button" onClick={handleLoginWithFacebook}>Iniciar sesión con Facebook</button>
     </div>
