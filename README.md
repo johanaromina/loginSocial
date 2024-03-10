@@ -1,5 +1,5 @@
 
-Claro, aquí tienes el instructivo utilizando Markdown:
+
 
 Desarrollar una aplicación Front End con Angular o React
 El objetivo es crear una aplicación que se conecte a la API de saldo.com.ar y cumpla con las siguientes historias de usuario:
